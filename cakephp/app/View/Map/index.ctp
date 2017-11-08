@@ -11,24 +11,6 @@
     <tr>
         <td class="list">
             <table id="search_list">
-<?php for($i=1; $i<=20; $i++){ ?>
-<!--
-                <tr>
-                    <td rowspan="3" class="c-1"><img src="/img/icons/number_<?php echo $i; ?>.png"></td>
-                    <td class="c-2">まるまるまるまる公園</td> 
-                    <td rowspan="3" class="c-3"><img src="/img/photos/<?php echo $i; ?>.jpg"> </td>
-                </tr>
-                <tr>
-                    <td class="c-2">まる公園</td>
-                </tr>
-                <tr>
-                    <td class="c-2">
-                        <div class="ok">遊具,多目的トイレ,ベンチ</div>
-                        <div class="ng">自転車,ボール</div>
-                    </td>
-                </tr>
--->
-<?php } ?>
             </table>
         </td>
     </tr>
@@ -138,7 +120,7 @@ function makeList(url){
         for (var i =0; i < fs.length; i++){
             var p = fs[i].properties;
             var id = p.id; 
-            var dt = '<tr> <td rowspan="3" class="c-1"><a href="/details/' + id + '"><img src="/img/icons/number_' +  (i + 1) + '.png"></a></td> <td class="c-2">' + p.park_name + '</td> <td rowspan="3" class="c-3"><img src="/img/photos/1.jpg"> </td> </tr> <tr> <td class="c-2">' + p.park_name_rm + '</td> </tr> <tr> <td class="c-2"> <div class="ok">遊具,多目的トイレ,ベンチ</div> <div class="ng">自転車,ボール</div> </td> </tr>';
+            var dt = '<tr> <td rowspan="3" class="c-1"><a href="/details/items/' + id + '"><img src="/img/icons/number_' +  (i + 1) + '.png"></a></td> <td class="c-2">' + p.park_name + '</td> <td rowspan="3" class="c-3"><img src="/img/photos/1.jpg"> </td> </tr> <tr> <td class="c-2">' + p.park_name_rm + '</td> </tr> <tr> <td class="c-2"> <div class="ok">遊具,多目的トイレ,ベンチ</div> <div class="ng">自転車,ボール</div> </td> </tr>';
             $("#search_list").append(dt);
         }
         

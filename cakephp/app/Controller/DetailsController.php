@@ -10,7 +10,7 @@ App::uses('AppController', 'Controller');
  */
 class DetailsController extends AppController {
 
-    public $uses = array("Details", "ParkList");
+    public $uses = array("Detail", "ParkList", "Category");
 
 /**
  * Components
@@ -160,6 +160,7 @@ class DetailsController extends AppController {
 
     public function items($park_list_id){
         $park_list = $this->ParkList->findById($park_list_id);
-        $this->set(compact('park_list'));
+        $categories = $this->Category->find('all');
+        $this->set(compact('park_list','categories'));
     }
 }

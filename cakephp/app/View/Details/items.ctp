@@ -1,3 +1,6 @@
+<script async defer
+         src="https://maps.googleapis.com/maps/api/js?key=<?php echo Configure::read('google_apikey'); ?>&callback=initialize">
+</script>
 <style>
     .title{
         font-size: 120%;
@@ -49,78 +52,93 @@
       margin-bottom: 0px;
     }
 
+    .permit {
+        width: 400px;
+        border: 1px black solid;
+    }
+
+    .dtl {
+        border: 1px black solid;
+        text-align: center;
+    }
+
+    .green {
+        color: black;
+        background-color: #e3f0fb;
+    }
+
+    .red {
+        color: white;
+        background-color: red;
+    }
+
+    .gray{
+        color: black;
+        background-color: white;
+    }
+
+    #streetview{
+        height: 300px;
+    }
 </style>
 <div class="container">
-
     <nav class="navbar navbar-toggleable-md navbar-light bg-faded" style="padding-left:0px;">
         <a class="navbar-brand" href="/">乳幼児向け公園検索サービス</a>
     </nav>
-<?php print_r($park_list) ?>
     <div class="row">
-
-        <!-- <div class="col-sm-5 divbtn">
-            <a href="/map/gps/" class="square_btn">現在地からさがす</a>
-        </div>
-        -->
         <div class="parkname">
-          <h2 style="margin-botom:0px";><?php echo $park_list["ParkList"]["park_name"]; ?></h2>
-          </br>(通称　<?php echo $park_list["ParkList"]["park_name_rm"]; ?>)
-          </br> <span style="border-bottom: solid 1px black;">住所 <?php echo $park_list["ParkList"]["address"]; ?></span>
-        </div>
-      </br>
-<div>
-</div>
-
+            <h2 style="margin-botom:0px";><?php echo $park_list["ParkList"]["park_name"]; ?></h2>
+            </br>(通称　<?php echo $park_list["ParkList"]["park_name_rm"]; ?>)
+            </br> <span style="border-bottom: solid 1px black;">住所 <?php echo $park_list["ParkList"]["address"]; ?></span>
+        </div></br>
         <div class="wentpark">
-          <?php echo $this->Html->image('went.jpg', array('width'=>'200', 'url'=>array('action'=>'nextview'))); ?>
-        </div>
-
-        <div class="col-sm-2 divbtn"></div>
+             <?php echo $this->Html->image('went.jpg', array('width'=>'200', 'url'=>array('action'=>'nextview'))); ?>
+        </div><br>
+        <div class="permit">
+<?php
+    $details = $park_list["Detail"];
+    foreach ($categories as $category){
+        $name = $category["Category"]["name"];
+        $cls = "gray";
+        foreach($details as $detail){
+            if ($detail["name"] == $name){
+                switch ($detail["permit_flag"]){
+                    case 1:
+                        $cls = "green";
+                        break;
+                    case 2:
+                        $cls = "red";
+                        break;
+                    default:
+                        $cls = "gray";
+                        break;
+                }
+                break;
+            }
+        }
+        printf("        <div class='dtl col-xs-4 %s'>%s</div>\n", $cls, $category["Category"]["name"]);
+    }
+?>
+        </div><br style="clear:both"><br>
+        <div id="streetview"></div><br>
+<script>
+<?php 
+$latitude = $park_list["ParkList"]["latitude"];
+$longitude =  $park_list["ParkList"]["longitude"];
+printf("var lat=%s, lng=%s;\n", $latitude, $longitude);
+?>
+var panorama;
+function initialize(){
+    panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('streetview'), {
+        position: {lat: lat, lng: lng},
+        pov: {heading: 165, pitch: 0},
+        zoom: 1
+    });
+}
+</script>  
+      <div> <?php echo $this->Html->image('park_detail.jpg', array('width'=>'400')); ?> </div><br>
+        <div> <?php echo $this->Html->image('evaluation.jpg', array('width'=>'400')); ?> </div><br>
+        <div> <?php echo $this->Html->image('recommend.jpg', array('width'=>'400')); ?> </div><br>
     </div>
-
-<div>
-
-      <table class="type01" width="400px" class="table3" border=1>
-        <tr>
-          <td bgcolor="#e3f0fb">トイレ</td><td>多</td><td>オムツ</td>
-        </tr>
-        <tr>
-          <td>広さ</td><td bgcolor="#e3f0fb">芝生</td><td bgcolor="#e3f0fb">すべり台</td>
-        </tr>
-        <tr>
-          <td bgcolor="#e3f0fb">ブランコ</td><td>てつぼう</td><td>砂場</td>
-        </tr>
-        <tr>
-          <td>散策</td><td>穴</td><td bgcolor="#e3f0fb">水遊び</td>
-        </tr>
-        <tr>
-          <td>ボール</td><td>ドッグラン</td><td>木登り</td>
-        </tr>
-      </table>
-    </div>
-</br>
-<iframe src="https://www.google.com/maps/embed?pb=!1m0!4v1509870785218!6m8!1m7!1sSn1NauAxPQ_DY8wdSsbUIQ!2m2!1d<?php echo $park_list["ParkList"]["latitude"] ?>!2d<?php echo $park_list["ParkList"]["longitude"]; ?>!3f207.75596365969844!4f0!5f0.7820865974627469" width="400" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
-</br>
-    <div>
-      <?php echo $this->Html->image('park_detail.jpg', array('width'=>'400')); ?>
-    </div>
-  </br>
-</br>
-    <div>
-      <?php echo $this->Html->image('evaluation.jpg', array('width'=>'400')); ?>
-    </div>
-
-
-  </br>
-</br>
-    <div>
-      <?php echo $this->Html->image('recommend.jpg', array('width'=>'400')); ?>
-    </div>
-
-<!--
-    <div class="tw">
-        <a class="twitter-timeline" href="https://twitter.com/park_shinagawa?ref_src=twsrc%5Etfw">Tweets by TwitterDev</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
--->
-
 </div>
