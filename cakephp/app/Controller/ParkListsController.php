@@ -106,8 +106,20 @@ class ParkListsController extends AppController {
 
     public function geojson($lat = null, $lon = null){
         $this->autoRender=false;
+        $lat = empty($lat) ? 49 : $lat;
+        $lon = empty($lon) ? 139 : $lon;
         $geojson = $this->ParkList->geojson($lat, $lon);
-        print json_encode($geojson);
+        $json = json_decode($geojson, true);
+        $i = 0;
+        foreach ($json['features'] as $k => &$v){
+            $v["properties"]["no_image"] = sprintf("/img/icons/number_%d.png", ++$i);
+        }
+        print json_encode($json);
     }
 
+
+    public function test(){
+        $this->autoRender=false;
+        print_r($this->ParkList->showTest());
+    }
 }

@@ -11,6 +11,21 @@
 			<?php echo $this->Html->link($post['ParkList']['id'], array('controller' => 'park_lists', 'action' => 'view', $post['ParkList']['id'])); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Age'); ?></dt>
+		<dd>
+			<?php echo h($post['Post']['age']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Rank'); ?></dt>
+		<dd>
+			<?php echo h($post['Post']['rank']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Photo Path'); ?></dt>
+		<dd>
+			<?php echo h($post['Post']['photo_path']); ?>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('Message'); ?></dt>
 		<dd>
 			<?php echo h($post['Post']['message']); ?>

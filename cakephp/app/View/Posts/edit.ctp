@@ -5,6 +5,9 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('park_list_id');
+		echo $this->Form->input('age');
+		echo $this->Form->input('rank');
+		echo $this->Form->input('photo_path');
 		echo $this->Form->input('message');
 	?>
 	</fieldset>

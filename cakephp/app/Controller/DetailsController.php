@@ -10,7 +10,7 @@ App::uses('AppController', 'Controller');
  */
 class DetailsController extends AppController {
 
-    public $uses = array("Detail", "ParkList", "Category");
+    public $uses = array("Detail", "ParkList", "Category", "Post");
 
 /**
  * Components
@@ -161,6 +161,21 @@ class DetailsController extends AppController {
     public function items($park_list_id){
         $park_list = $this->ParkList->findById($park_list_id);
         $categories = $this->Category->find('all');
-        $this->set(compact('park_list','categories'));
+
+        //Post平均値
+        $opt = array(
+            "conditions" => array(
+                "Post.park_list_id" => $park_list_id
+            ),
+            "fields" => array(
+                "Post.age",
+                "avg(Post.rank) as \"Post__avg\"",
+            ),
+            "recursive" => -1,
+            "group" => array("Post.age")
+        );
+        $ranks = $this->Post->find("all", $opt);
+        $rank_lists = $this->Post->avg($park_list_id);
+        $this->set(compact('park_list','categories', 'ranks', 'rank_lists'));
     }
 }

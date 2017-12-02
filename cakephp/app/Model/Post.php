@@ -24,4 +24,14 @@ class Post extends AppModel {
 			'order' => ''
 		)
 	);
+
+    public function avg($park_list_id){
+        $sql = "select age_list, (COALESCE(avg,0.00)) as avg from (select age, avg(rank) from posts where park_list_id = $park_list_id group by age) as a right join (select * from generate_series(0, 6) as age_list) as b on (a.age = b.age_list);";
+        $rs = $this->query($sql);
+        $ret = array();
+        foreach ($rs as $row){
+            $ret[] = $row[0];
+        }
+        return $ret;
+    }
 }

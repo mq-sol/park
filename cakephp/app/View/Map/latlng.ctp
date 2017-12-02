@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
 <script src="/js/leaflet.ajax.js"></script>
 <table class="table">
     <tr>
@@ -11,6 +11,25 @@
     <tr>
         <td class="list">
             <table id="search_list">
+<?php foreach($data as $i =>  $row){ ?>
+            <tr>
+                <td rowspan="3" class="c-1">
+                    <a href="/details/items/<?php echo $row["ParkList"]["id"]; ?>"><img src="/img/icons/number_<?php echo ($i + 1);?>.png"></a>
+                </td>
+                <td class="c-2"><?php echo $row["ParkList"]["park_name"]; ?></td>
+                <?php $photo = empty($row["Photo"]["photo_url"]) ? "/img/noimage.png" : $row["post"]["photo_url"]; ?>
+                <td rowspan="3" class="c-3"> <img src="<?php echo $photo; ?>"> </td>
+            </tr>
+            <tr>
+                <td class="c-2"><?php echo $row["ParkList"]["park_name"]; ?></td>
+            </tr>
+            <tr>
+                <td class="c-2">
+                    <div class="ok"><?php $row["Detail"]["ok"]; ?></div>
+                    <div class="ng"><?php $row["Detail"]["ng"]; ?></div>
+                </td>
+            </tr>
+<?php } ?>
             </table>
         </td>
     </tr>
@@ -30,9 +49,9 @@
     }
     html{
         overflow: hidden;
-    }    
+    }
 
-    body{  
+    body{
         overflow: scroll;
     }
     .list,{
@@ -43,7 +62,7 @@
         width: 100%;
     }
 
-    .search_list{    
+    .search_list{
         border: 1px solid black;
     }
     .c-1, .c-3{
@@ -77,13 +96,22 @@ $(document).ready(function(){
             maxZoom: 18
         }
     ).addTo(map);
+    geojsonLayer = new L.geoJson(null, {
+       pointToLayer: function(feature, latlng) {
+            console.log(feature, latlng);
+       },
+       onEachFeature: function (feature, layer) {
+           layer.bindPopup(feature.properties.park_name + '<br />' + feature.properties.park_name_rm);
+       }
+    }).addTo(map);
+
     if (gps){
         navigator.geolocation.getCurrentPosition(function(pos){
-            console.log(pos);    
+            console.log(pos);
             var lat = pos.coords.latitude;
             var lng = pos.coords.longitude;
             url2latlng(lat, lng);
-        }, 
+        },
         function(pos){
             console.log(pos);
         } , {
@@ -103,29 +131,18 @@ function url2latlng(lat, lng){
 }
 
 function makeList(url){
-    //geojsonLayer = new L.GeoJSON.AJAX(url,{ }).addTo(map);
+    geojsonLayer = new L.GeoJSON.AJAX(url,{ }).addTo(map);
     $.getJSON(url,function(data){
-        console.log(data);
-        geojsonLayer = new L.geoJson(data, {
-           pointToLayer: function(feature, latlng) {
-                console.log(feature, latlng);
-                return L.marker(latlng, {icon:  new L.icon({
-                    iconSize: [32, 37],
-                    iconAnchor: [16, 36],
-                    iconUrl: feature.properties.no_image,
-                })});
-           },
-        }).addTo(map);
         var fs = data.features;
         console.log(url,fs);
         $("#search_list").empty();
         for (var i =0; i < fs.length; i++){
             var p = fs[i].properties;
-            var id = p.id; 
+            var id = p.id;
             var dt = '<tr> <td rowspan="3" class="c-1"><a href="/details/items/' + id + '"><img src="/img/icons/number_' +  (i + 1) + '.png"></a></td> <td class="c-2">' + p.park_name + '</td> <td rowspan="3" class="c-3"><img src="/img/photos/1.jpg"> </td> </tr> <tr> <td class="c-2">' + p.park_name_rm + '</td> </tr> <tr> <td class="c-2"> <div class="ok">遊具,多目的トイレ,ベンチ</div> <div class="ng">自転車,ボール</div> </td> </tr>';
             $("#search_list").append(dt);
         }
-        
+
     });
 }
 </script>

@@ -18,11 +18,11 @@ class PostsController extends AppController {
 	public $components = array('Paginator', 'Session', 'Flash');
 
 /**
- * lists method
+ * index method
  *
  * @return void
  */
-	public function lists() {
+	public function index() {
 		$this->Post->recursive = 0;
 		$this->set('posts', $this->Paginator->paginate());
 	}
@@ -47,17 +47,18 @@ class PostsController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function add($id = null) {
 		if ($this->request->is('post')) {
 			$this->Post->create();
 			if ($this->Post->save($this->request->data)) {
 				$this->Flash->success(__('The post has been saved.'));
-				return $this->redirect(array('action' => 'lists'));
+				return $this->redirect("/details/items/". $id);
 			} else {
 				$this->Flash->error(__('The post could not be saved. Please, try again.'));
 			}
 		}
 		$parkLists = $this->Post->ParkList->find('list');
+        $this->set('park_list_id', $id);
 		$this->set(compact('parkLists'));
 	}
 
@@ -75,7 +76,7 @@ class PostsController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Post->save($this->request->data)) {
 				$this->Flash->success(__('The post has been saved.'));
-				return $this->redirect(array('action' => 'lists'));
+				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Flash->error(__('The post could not be saved. Please, try again.'));
 			}
@@ -105,6 +106,6 @@ class PostsController extends AppController {
 		} else {
 			$this->Flash->error(__('The post could not be deleted. Please, try again.'));
 		}
-		return $this->redirect(array('action' => 'lists'));
+		return $this->redirect(array('action' => 'index'));
 	}
 }

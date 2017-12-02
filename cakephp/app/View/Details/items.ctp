@@ -131,12 +131,13 @@
     </nav>
     <div class="row">
         <div class="parkname">
-            <h2 style="margin-botom:0px";><?php echo $park_list["ParkList"]["park_name"]; ?></h2>
+            <h2 style="margin-botom:0px; white-space: nowrap;"><?php echo $park_list["ParkList"]["park_name"]; ?></h2>
             </br>(通称　<?php echo $park_list["ParkList"]["park_name_rm"]; ?>)
             </br> <span style="border-bottom: solid 1px black;">住所 <?php echo $park_list["ParkList"]["address"]; ?></span>
         </div></br>
         <div class="wentpark">
-             <?php echo $this->Html->image('went.jpg', array('width'=>'200', 'url'=>array('action'=>'nextview'))); ?>
+             <?php echo $this->Html->image('went.jpg', array('width'=>'200', 
+                'url'=>array('controller' => 'posts','action'=>'add', $park_list["ParkList"]["id"]))); ?>
         </div><br>
         <div class="permit">
 <?php
@@ -182,6 +183,7 @@ function initialize(){
 }
 </script>  
       <div><?php
+        /*
         $photos = $park_list["Photo"];
         if (empty($photos)){
             echo $this->Html->image('noimage.png', array('width' => 400));
@@ -189,6 +191,7 @@ function initialize(){
             $photo = array_shift($photos);
             echo $this->Html->image($photo['path'], array('width' => 400));
         }
+        */
         ?></div><br>
         <h3>みんなの評価</h3>
         <?php
@@ -204,7 +207,12 @@ function initialize(){
             if (count($ranks)){
                 $rank_avg = number_format($rank_avg / count($ranks),2);
             }
-             
+           
+            $total = 0; 
+            foreach($rank_lists as $rank){
+                $total += $rank["age_list"];
+            }
+            $rank_avg = number_format($total / 7, 2);
         ?>
         <div class="col-xs-6">
             <div class="rank">
@@ -218,15 +226,31 @@ function initialize(){
         </div>
         <br style="clear:both">
         <div class="col-xs-12 graph">
-            <dt>0歳児</dt><dd><div class="gh_border" style="width:10px">0%</div></dd>
-            <dt>1歳児</dt><dd><div class="gh_border" style="width:10px">0%</div></dd>
-            <dt>2歳児</dt><dd><div class="gh_border" style="width:10px">0%</div></dd>
-            <dt>3歳児</dt><dd><div class="gh_border" style="width:10px">0%</div></dd>
-            <dt>4歳児</dt><dd><div class="gh_border" style="width:10px">0%</div></dd>
-            <dt>5歳児</dt><dd><div class="gh_border" style="width:10px">0%</div></dd>
-            <dt>6歳児</dt><dd><div class="gh_border" style="width:10px">0%</div></dd>         
+<?php
+    //print_r($rank_lists);
+?>
+            <?php
+                foreach($rank_lists as $rank){
+                    $age = $rank["age_list"];
+                    $avg = $rank["avg"];
+                    $width = empty($avg) ? 15 : $avg * 20;
+                    $tpl='<dt>%d歳児</dt><dd><div class="gh_border" style="width:%dpx">%d</div></dd>'. "\n";
+                    printf($tpl, $age, $width, $avg);
+                }
+            ?>
         </div>
-      <div><?php echo $this->Html->image('evaluation.jpg', array('width'=>'400')); ?> </div><br>
-      <div> <?php echo $this->Html->image('recommend.jpg', array('width'=>'400')); ?> </div><br>
+        <br style="clear:both">
+        <div style="margin: 4px;padding: 6px;"><h4>みんなの口コミ</h4></div>
+        <ul class="list-group">
+<?php
+        $star = "☆";
+        foreach ($posts as $post){
+            printf("<li class='list-group-item'>%s<br>年齢：%s歳児 評価: %s 投稿日 %s</li>", 
+                $post["message"], $post["age"], str_repeat($star, $post["rank"]), $post["created"]); 
+        }
+?>
+        </ul>
+        <div clas="col-xs-12">
+        </div>
     </div>
 </div>

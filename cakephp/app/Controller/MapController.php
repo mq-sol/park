@@ -29,12 +29,20 @@ App::uses('AppController', 'Controller');
  * @link https://book.cakephp.org/2.0/en/controllers/pages-controller.html
  */
 class MapController extends AppController {
+
+    public $uses = array("Detail", "ParkList", "Category", "Photo");
+
+
     public function index(){
     }
 
     public function gps(){
         $this->set("method", "gps");
         $this->render("index");
+    }
+
+    public function latlng($lat, $lng){
+    
     }
    
 }

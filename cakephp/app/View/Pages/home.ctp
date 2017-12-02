@@ -43,7 +43,7 @@
         </div>
         <div class="col-sm-2 divbtn"></div>
         <div class="col-sm-5 divbtn">
-            <a href="#" class="square_btn">最寄り駅からさがす</a>
+            <a disabled href="#" class="square_btn">最寄り駅からさがす</a>
         </div>
         <div class="col-sm-2 divbtn"></div>
     </div>
