@@ -117,6 +117,13 @@ class ParkListsController extends AppController {
         print json_encode($json);
     }
 
+    public function frame($lat = null, $lon = null){
+        $this->autoLayout ==false;
+        $lat = empty($lat) ? 49 : $lat;
+        $lon = empty($lon) ? 139 : $lon;
+        $parklists = $this->ParkList->search($lat, $lon);
+        $this->set(compact('parklists'));
+    }
 
     public function test(){
         $this->autoRender=false;

@@ -85,7 +85,7 @@ FROM (
                 ST_AsGeoJSON(point, 6)::json AS geometry,
                 row_to_json((
                 SELECT p FROM (
-                        SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng
+                        SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng, v.description
                 ) AS p
                 )) AS properties
                 FROM view_park_lists AS v
@@ -99,6 +99,22 @@ _SQL_;
         $result = $rs[0][0]["row_to_json"];
         return $result;
 
+    }
+
+    public function search($lat = null, $lng = null){
+        $sql = <<<_SQL_
+                SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng, v.description
+                FROM view_park_lists AS v
+                ORDER BY st_distance(point, st_setsrid(st_makepoint($lng, $lat),4326))
+                limit 20
+_SQL_;
+
+        $rs = $this->query($sql);
+        $result = array();
+        foreach($rs as $row){
+            $result[] = $row[0];
+        }
+        return $result;
     }
 
     public function my_geojson($lat = null, $lng = null){

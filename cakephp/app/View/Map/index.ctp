@@ -1,21 +1,60 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" />
 <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
 <script src="/js/leaflet.ajax.js"></script>
+<script src="/js/map2.js"></script>
+<script>
+<?php if (!empty($method)){
+    print("var gps=true;\n");
+}else{
+    print("var gps=false;\n");
+}
+?>
+</script>
+<div class="container">
+<div class="main_contents">
+<div class="main_title">    
+    <p>現在地から探す</p>
+</div>
 <table class="table">
     <tr>
-        <td><form class="form-inline"><label>検索：<input type="text" name="serch" value="武蔵小山駅"></label><button type="button" onClick="url2latlng(35.620507, 139.704413)">再検索</button></form></td>
+        <td>
+            <form class="form-inline">
+            <label for="landmark">検索： </label>
+            <select class="form-control" id="landmark">
+               <?php
+foreach ($landmarks as $lm){
+printf("<option value=\"%s,%s\">%s</option>", $lm["Landmark"]["lat"],$lm["Landmark"]["lng"],$lm["Landmark"]["name"]);
+}
+                ?> 
+            </select>
+            <button class="btn btn-default" type="button" onClick="mm(this)">再検索</button>
+            </form>
+        </td>
     </tr>
     <tr>
         <td><div id="map" class="mp"></div>
     </tr>
     <tr>
-        <td class="list">
-            <table id="search_list">
-            </table>
+        <td>
         </td>
     </tr>
 </table>
+<div class="pull-right">
+    <form class="form-inline">
+    <label for="order">並べ替え： </label>
+    <select class="form-control" id="order">
+        <option value="1">近い順</option>
+        <option value="2">評価の高い順</option>
+    </select>
+</div>
+<br style="clear:both">
+<hr>
+<iframe id="iframe_list" src="/park_lists/frame/"> </iframe>
 <style>
+    iframe{
+        width: 100%;
+        border: none;
+    }
     .ok{
         color: blue;
     }
@@ -54,78 +93,5 @@
         width: 90%;
     }
 </style>
-<script>
-var map, geojsonLayer;
-$(document).ready(function(){
-    var h = $("html").height();
-    var w = $("html").width();
-    $("#map").height(h / 2);
-    <?php if (!empty($method)){
-        print("var gps=true;\n");
-    }else{
-        print("var gps=false;\n");
-    }
-    ?>
-    //地図のデフォルト値
-    //35.61726475358062, lng: 139.73176002502439
-    map = L.map('map').setView([35.617264, 139.73176], 14);
-    //OSMレイヤー追加
-    L.tileLayer(
-        '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        ,{
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-            maxZoom: 18
-        }
-    ).addTo(map);
-    if (gps){
-        navigator.geolocation.getCurrentPosition(function(pos){
-            console.log(pos);    
-            var lat = pos.coords.latitude;
-            var lng = pos.coords.longitude;
-            url2latlng(lat, lng);
-        }, 
-        function(pos){
-            console.log(pos);
-        } , {
-
-        });
-    }else{
-        url2latlng();
-    }
-});
-
-function url2latlng(lat, lng){
-    lat = lat || 35.620507;
-    lng = lng || 139.704413;
-    var url = "/park_lists/geojson/" + lat + "/" + lng;
-    map.setView(new L.LatLng(lat, lng), 16);
-    makeList(url);
-}
-
-function makeList(url){
-    //geojsonLayer = new L.GeoJSON.AJAX(url,{ }).addTo(map);
-    $.getJSON(url,function(data){
-        console.log(data);
-        geojsonLayer = new L.geoJson(data, {
-           pointToLayer: function(feature, latlng) {
-                console.log(feature, latlng);
-                return L.marker(latlng, {icon:  new L.icon({
-                    iconSize: [32, 37],
-                    iconAnchor: [16, 36],
-                    iconUrl: feature.properties.no_image,
-                })});
-           },
-        }).addTo(map);
-        var fs = data.features;
-        console.log(url,fs);
-        $("#search_list").empty();
-        for (var i =0; i < fs.length; i++){
-            var p = fs[i].properties;
-            var id = p.id; 
-            var dt = '<tr> <td rowspan="3" class="c-1"><a href="/details/items/' + id + '"><img src="/img/icons/number_' +  (i + 1) + '.png"></a></td> <td class="c-2">' + p.park_name + '</td> <td rowspan="3" class="c-3"><img src="/img/photos/1.jpg"> </td> </tr> <tr> <td class="c-2">' + p.park_name_rm + '</td> </tr> <tr> <td class="c-2"> <div class="ok">遊具,多目的トイレ,ベンチ</div> <div class="ng">自転車,ボール</div> </td> </tr>';
-            $("#search_list").append(dt);
-        }
-        
-    });
-}
-</script>
+</div>
+</div>

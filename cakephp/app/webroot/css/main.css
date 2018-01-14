@@ -1,0 +1,69 @@
+body{
+    background-color: #FFF4E0;
+}
+.title{
+    font-size: 120%;
+    padding: 10px;
+}
+
+.square_btn{
+    display: table-cell;
+    padding: 0.5em 1em;
+    margin: 0 auto;
+    text-decoration: none;
+    color: #000000;/*ボタン色より暗く*/
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+    border-bottom: solid 3px #627295;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 160%;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+    height: 120px;
+    max-width: 160px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.square_btn:active   {
+    -ms-transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
+    border-bottom: none;
+}
+
+.square_btn.blue{
+    background: #7FB6F5;/*ボタン色*/
+}
+
+.square_btn.red{
+    background: #E07581;/*ボタン色*/
+}
+
+.row {
+    width: 100%;
+    margin: 15px auto;
+} 
+
+.main_title{ 
+    font-size: 200%;
+    width: 100%;
+    
+}
+
+.main_contents{
+    max-width: 600px;
+    margin: 0 auto;
+}
+.tw{
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.children {
+    width: 250px;
+    height: 190px;
+    display: block;
+    margin-left: 400px;
+}

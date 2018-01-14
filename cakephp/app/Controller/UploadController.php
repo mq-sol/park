@@ -95,7 +95,9 @@ class UploadController extends AppController {
                 $name = $cv["value"];
                 $value = (empty($cols[$cv["key"]])) ? null : $cols[$cv["key"]];
                 if (empty($value)) continue;
-                if (mb_ereg_match("[0oO]",$value) || $value == "○"){
+                if (mb_ereg_match("[0oO]",$value) 
+                    || $value == "◯"
+                    || $value == "○"){
                     $permit_flag = 1;
                 }else if (mb_ereg_match("[xX]", $value) || $value == "×" ){
                     $permit_flag = 2;

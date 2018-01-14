@@ -30,13 +30,17 @@ App::uses('AppController', 'Controller');
  */
 class MapController extends AppController {
 
-    public $uses = array("Detail", "ParkList", "Category", "Photo");
+    public $uses = array("Detail", "ParkList", "Category", "Photo", "Landmark");
 
 
     public function index(){
+        $landmarks = $this->Landmark->find("all");
+        $this->set(compact('landmarks'));
     }
 
     public function gps(){
+        $landmarks = $this->Landmark->find("all");
+        $this->set(compact('landmarks'));
         $this->set("method", "gps");
         $this->render("index");
     }

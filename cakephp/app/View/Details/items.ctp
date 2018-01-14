@@ -83,33 +83,41 @@
     }
 
     .permit {
-        width: 400px;
-        border: 1px black solid;
+        width: 100%;
     }
 
     .dtl {
-        border: 1px black solid;
         text-align: center;
+        padding: 3px;
     }
 
     .green {
-        color: black;
-        background-color: #e3f0fb;
+        color: white;
+        background-color: #85e024;
+        border: 1px solid #85e024;
+        padding: 2px;
+        border-radius: 5px
     }
 
     .red {
         color: white;
         background-color: red;
+        border: red 1px solid;
+        padding: 2px;
+        border-radius: 5px
     }
 
     .gray{
-        color: black;
-        background-color: white;
+        color: white;
+        background-color: gray;
+        border: gray 1px solid;
+        padding: 2px;
+        border-radius: 5px
     }
 
     #streetview{
         height: 300px;
-        width: 400px;
+        width: 100%;
     }
 
     .rank {
@@ -124,22 +132,82 @@
         text-align: center;
         padding-top: 5px;
     }
+
+.menu {
+    width: 100%;
+}
+.menu td {
+    width: 50%;
+    padding: 10px;
+}
+
+.memu td {
+
+}
+.menu .map{
+    background-color: #FFBC61; 
+    color: white;
+    font-size: 120%;
+    text-align: center;
+    
+}
+
+.menu .post{
+    background-color: gray;
+    color: white;
+    font-size: 120%;
+    text-align: center;
+    border: gray solid 1px;
+}
+
+.menu .post a{
+    color: white;
+    font-size: 120%;
+    text-align: center;
+}
+
 </style>
-<div class="container-small">
-    <nav class="navbar navbar-toggleable-md navbar-light bg-faded" style="padding-left:0px;">
-        <a class="navbar-brand" href="/">乳幼児向け公園検索サービス</a>
-    </nav>
+<div class="container">
+<div class="main_contents">
+<center>
+<div class="main_title center-block">
+    <?php echo $park_list["ParkList"]["park_name"]; ?><br>
+</div>
+ (<?php echo $park_list["ParkList"]["park_name_rm"]; ?>)
+</center>
+<table class="menu">
+    <tr>
+        <td class="map">基本情報</td>
+        <td class="post"><a href="/posts/add/<?php echo $park_list["ParkList"]["id"]; ?>"> みんなの報告</a></td>
+    </tr>
+</table>
+<script>
+<?php 
+$latitude = $park_list["ParkList"]["latitude"];
+$longitude =  $park_list["ParkList"]["longitude"];
+printf("var lat=%s, lng=%s;\n", $latitude, $longitude);
+?>
+var panorama;
+function initialize(){
+    panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('streetview'), {
+        position: {lat: lat, lng: lng},
+        pov: {heading: 165, pitch: 0},
+        zoom: 1
+    });
+}
+</script>  
     <div class="row">
-        <div class="parkname">
-            <h2 style="margin-botom:0px; white-space: nowrap;"><?php echo $park_list["ParkList"]["park_name"]; ?></h2>
-            </br>(通称　<?php echo $park_list["ParkList"]["park_name_rm"]; ?>)
-            </br> <span style="border-bottom: solid 1px black;">住所 <?php echo $park_list["ParkList"]["address"]; ?></span>
-        </div></br>
-        <div class="wentpark">
-             <?php echo $this->Html->image('went.jpg', array('width'=>'200', 
-                'url'=>array('controller' => 'posts','action'=>'add', $park_list["ParkList"]["id"]))); ?>
-        </div><br>
-        <div class="permit">
+        <div id="streetview"></div><br>
+        住所：<br>
+        <p>東京都品川区<?php echo $park_list["ParkList"]["address"]; ?>&nbsp;
+        <a href="https://www.google.co.jp/maps/@<?php echo $latitude; ?>,<?php echo $longitude; ?>,16z" target="map">google map</a></p><br>
+        公園紹介<br>
+        <p><?php echo $park_list["ParkList"]["description"]; ?></p>
+
+        </p>
+        基本情報：<br>
+        <div class="permit row">
 <?php
     $details = $park_list["Detail"];
     foreach ($categories as $category){
@@ -161,96 +229,7 @@
                 break;
             }
         }
-        printf("        <div class='dtl col-xs-4 %s'>%s</div>\n", $cls, $category["Category"]["name"]);
+        printf("        <div class='dtl col-xs-3'><div class='%s'>%s</div></div>\n", $cls, $category["Category"]["name"]);
     }
 ?>
         </div><br style="clear:both"><br>
-        <div id="streetview"></div><br>
-<script>
-<?php 
-$latitude = $park_list["ParkList"]["latitude"];
-$longitude =  $park_list["ParkList"]["longitude"];
-printf("var lat=%s, lng=%s;\n", $latitude, $longitude);
-?>
-var panorama;
-function initialize(){
-    panorama = new google.maps.StreetViewPanorama(
-        document.getElementById('streetview'), {
-        position: {lat: lat, lng: lng},
-        pov: {heading: 165, pitch: 0},
-        zoom: 1
-    });
-}
-</script>  
-      <div><?php
-        /*
-        $photos = $park_list["Photo"];
-        if (empty($photos)){
-            echo $this->Html->image('noimage.png', array('width' => 400));
-        }else{
-            $photo = array_shift($photos);
-            echo $this->Html->image($photo['path'], array('width' => 400));
-        }
-        */
-        ?></div><br>
-        <h3>みんなの評価</h3>
-        <?php
-            $posts = $park_list["Post"];
-            $post_count = 0;
-            $post_count = count($posts);
-            $ranks = $park_list["Rank"];
-            $rank_avg = 0;
-            
-            foreach($ranks as $rank){
-                $rank_avg += $rank["rank"];
-            }
-            if (count($ranks)){
-                $rank_avg = number_format($rank_avg / count($ranks),2);
-            }
-           
-            $total = 0; 
-            foreach($rank_lists as $rank){
-                $total += $rank["age_list"];
-            }
-            $rank_avg = number_format($total / 7, 2);
-        ?>
-        <div class="col-xs-6">
-            <div class="rank">
-            <span>満足度</span><span class="font-large"><?php echo $rank_avg ?></span>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="rank">
-            <span>クチコミ件数</span><span class="font-large"><?php echo $post_count ?></span><span>件</span>
-            </div>
-        </div>
-        <br style="clear:both">
-        <div class="col-xs-12 graph">
-<?php
-    //print_r($rank_lists);
-?>
-            <?php
-                foreach($rank_lists as $rank){
-                    $age = $rank["age_list"];
-                    $avg = $rank["avg"];
-                    $width = empty($avg) ? 15 : $avg * 20;
-                    $tpl='<dt>%d歳児</dt><dd><div class="gh_border" style="width:%dpx">%d</div></dd>'. "\n";
-                    printf($tpl, $age, $width, $avg);
-                }
-            ?>
-        </div>
-        <br style="clear:both">
-        <div style="margin: 4px;padding: 6px;"><h4>みんなの口コミ</h4></div>
-        <ul class="list-group">
-<?php
-        $star = "☆";
-        foreach ($posts as $post){
-            printf("<li class='list-group-item'>%s<br>年齢：%s歳児 評価: %s 投稿日 %s</li>", 
-                $post["message"], $post["age"], str_repeat($star, $post["rank"]), $post["created"]); 
-        }
-?>
-        </ul>
-        <div clas="col-xs-12">
-        </div>
-    </div>
-</div>
