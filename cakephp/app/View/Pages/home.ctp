@@ -9,6 +9,7 @@
     <div class="main_title">    
         <p>乳幼児向け公園<br>検索サービス</p>
     </div>
+    <a href="/about/" target="_blank">このアプリについて</a><br>
     <center>
     <div class="row">
 

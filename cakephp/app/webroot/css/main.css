@@ -1,4 +1,13 @@
-body{
+html,body{
+    margin 0;
+    padding 0;
+    background-color: #FFF4E0;
+}
+.container{
+    background-color: #FFF4E0;
+}
+.main_contents{
+    padding: 10px;
     background-color: #FFF4E0;
 }
 .title{

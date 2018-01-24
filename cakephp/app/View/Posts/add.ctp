@@ -134,7 +134,7 @@
     width: 100%;
 }
 .menu td {
-    width: 50%;
+    width: 33%;
     padding: 10px;
 }
 
@@ -180,8 +180,9 @@ body{
 </center>
 <table class="menu">
     <tr>
-        <td class="post"><a href="/details/items/<?php echo $park_list_id; ?>">基本情報</a></td>
-        <td class="map">みんなの報告</td>
+        <td class="post"><a href="/details/items/<?php echo $park_list_id; ?>">基本情報</td>
+        <td class="post"><a href="/posts/view/<?php echo $park_list_id; ?>"> みんなの報告</a></td>
+        <td class="map">いったよを報告する</a></td>
     </tr>
 </table>
 <br>

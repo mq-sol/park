@@ -1,56 +1,186 @@
-<div class="posts view">
-<h2><?php echo __('Post'); ?></h2>
-	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Park List'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($post['ParkList']['id'], array('controller' => 'park_lists', 'action' => 'view', $post['ParkList']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Age'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['age']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Rank'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['rank']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Photo Path'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['photo_path']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Message'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['message']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Created'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['created']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
-			<?php echo h($post['Post']['modified']); ?>
-			&nbsp;
-		</dd>
-	</dl>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=<?php echo Configure::read('google_apikey'); ?>&callback=initialize">
+</script>
+<style>
+    .graph dt{  
+      padding : 5px;
+      height: 30px;    
+      width : 80px;
+    /* 左寄せ */
+      float : left;
+    /* float解除 */
+      clear : both;
+    }
+     
+    .graph dd{    
+      padding : 5px;
+      height: 30px;
+      width : 300px;
+    /* dtの幅分の設定 */
+      margin-left : 80px;
+    }
+
+    dd .gh_border{
+        background-color: lightgray;
+        font-size: 90%;
+    }
+
+    .container-small{
+        max-width: 400px;
+    }
+
+    .title{
+        font-size: 120%;
+    }
+
+    .font-large{
+        font-size: 200%;
+    }
+    .square_btn{
+        display: block;
+        padding: 0.5em 1em;
+        margin: 0 auto;
+        text-decoration: none;
+        background: #668ad8;/*ボタン色*/
+        color: #FFFFFF;/*ボタン色より暗く*/
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+        border-bottom: solid 3px #627295;
+        border-radius: 3px;
+        font-weight: bold;
+        font-size: 160%;
+        text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+    }
+
+    .square_btn:active   {
+        -ms-transform: translateY(4px);
+        -webkit-transform: translateY(4px);
+        transform: translateY(4px);
+        box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
+        border-bottom: none;
+    }
+
+    .row {
+        width: 100%;
+        margin: 15px auto;
+    }
+
+    table.type01 td {
+      text-align: center;
+    }
+
+    div.parkname {
+      /*float:left;*/
+      width:200px;
+    }
+
+    div.wentpark {
+      /*float:right;*/
+      width:200px;
+    }
+
+    h2 {
+      margin-bottom: 0px;
+    }
+
+    .permit {
+        width: 100%;
+    }
+
+    .dtl {
+        text-align: center;
+        padding: 3px;
+    }
+
+    .green {
+        color: white;
+        background-color: #85e024;
+        border: 1px solid #85e024;
+        padding: 2px;
+        border-radius: 5px
+    }
+
+    .red {
+        color: white;
+        background-color: red;
+        border: red 1px solid;
+        padding: 2px;
+        border-radius: 5px
+    }
+
+    .gray{
+        color: white;
+        background-color: gray;
+        border: gray 1px solid;
+        padding: 2px;
+        border-radius: 5px
+    }
+
+    #streetview{
+        height: 300px;
+        width: 100%;
+    }
+
+    .rank {
+        height: 60px;
+        background: url('/img/bg.png') repeat-x;
+        margin: 2px;
+        border-left: 1px solid #D2C6C6;
+        border-right: 1px solid #D2C6C6;
+        border-radius: 5px;        /* CSS3草案 */  
+        -webkit-border-radius: 5px;    /* Safari,Google Chrome用 */  
+        -moz-border-radius: 5px;   /* Firefox用 */ 
+        text-align: center;
+        padding-top: 5px;
+    }
+
+.menu {
+    width: 100%;
+}
+.menu td {
+    width: 33%;
+    padding: 10px;
+}
+
+.memu td {
+
+}
+.menu .map{
+    background-color: #FFBC61; 
+    color: white;
+    font-size: 120%;
+    text-align: center;
+    
+}
+
+.menu .post{
+    background-color: gray;
+    color: white;
+    font-size: 120%;
+    text-align: center;
+    border: gray solid 1px;
+}
+
+.menu .post a{
+    color: white;
+    font-size: 120%;
+    text-align: center;
+}
+
+</style>
+<div class="container">
+<div class="main_contents">
+<center>
+<div class="main_title center-block">
+    みんなの報告    
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Post'), array('action' => 'edit', $post['Post']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Post'), array('action' => 'delete', $post['Post']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $post['Post']['id']))); ?> </li>
-		<li><?php echo $this->Html->link(__('List Posts'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Post'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Park Lists'), array('controller' => 'park_lists', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Park List'), array('controller' => 'park_lists', 'action' => 'add')); ?> </li>
-	</ul>
+</center>
+<table class="menu">
+    <tr>
+        <td class="post"><a href="/details/items/<?php echo $park_list_id; ?>"> 基本情報</a></td>
+        <td class="map">みんなの報告</td>
+        <td class="post"><a href="/posts/add/<?php echo $park_list_id; ?>"> いったよを報告する</a></td>
+    </tr>
+</table>
+
+</div>
 </div>

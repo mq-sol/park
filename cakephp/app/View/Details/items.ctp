@@ -137,7 +137,7 @@
     width: 100%;
 }
 .menu td {
-    width: 50%;
+    width: 33%;
     padding: 10px;
 }
 
@@ -178,7 +178,8 @@
 <table class="menu">
     <tr>
         <td class="map">基本情報</td>
-        <td class="post"><a href="/posts/add/<?php echo $park_list["ParkList"]["id"]; ?>"> みんなの報告</a></td>
+        <td class="post"><a href="/posts/view/<?php echo $park_list["ParkList"]["id"]; ?>"> みんなの報告</a></td>
+        <td class="post"><a href="/posts/add/<?php echo $park_list["ParkList"]["id"]; ?>"> いったよを報告する</a></td>
     </tr>
 </table>
 <script>

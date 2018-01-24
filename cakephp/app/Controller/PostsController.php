@@ -35,11 +35,8 @@ class PostsController extends AppController {
  * @return void
  */
 	public function view($id = null) {
-		if (!$this->Post->exists($id)) {
-			throw new NotFoundException(__('Invalid post'));
-		}
-		$options = array('conditions' => array('Post.' . $this->Post->primaryKey => $id));
-		$this->set('post', $this->Post->find('first', $options));
+        $this->set('park_list_id', $id);
+		$this->set(compact('parkLists'));
 	}
 
 /**
