@@ -35,7 +35,7 @@ class UploadController extends AppController {
  *
  * @var array
  */
-    public $uses = array("Detail", "ParkList", "Category");
+    public $uses = array("Detail", "ParkList", "Category","Photo");
 
     public function index () {
         if($this->request->is('post')){
@@ -61,6 +61,10 @@ class UploadController extends AppController {
         $headers = explode(",",$header);
         //カテゴリーは[]でくくってあるものを対象とする
         $categories = array();
+        //イメージはimageNN
+        $images = array();
+        //大きさは【】でくくる
+        
         //格納列チェック
         foreach($headers as $key => $field){
             if ($field == "id"){
@@ -71,8 +75,14 @@ class UploadController extends AppController {
                 $lats = $key;
             }else if ($field == "経度" || preg_match("/^(lon|lng)/",$field)){
                 $lons = $key;
-           }
+            }else if (preg_match("/image\d+/",$field,$match)){
+                $images[] = $key; 
+            }else if (mb_ereg("【(.*)】",$field,$match){
+                $sizes = $key;
+            }
         }
+
+
         //カテゴリーをDBに登録
         $this->Category->query("truncate table categories");
         foreach ($categories as $value){
@@ -87,10 +97,28 @@ class UploadController extends AppController {
 
         //詳細登録
         $this->Detail->query("truncate table details");
+        $this->Photo->query("truncate table photos");
         foreach ($rows as $k => $row){
             $cols = explode(",", $row);
             if (count($cols) <= 1) continue;
             $park_list_id = $cols[$ids];
+            //画像対応
+            foreach ($images as $key){
+                $photo_url = $cols[$key];
+                if (!empty($photo_url)){
+                    $photos = array(
+                        "Photo" => compact('park_list_id','photo_url')
+                    );
+                    $this->Photo->create();
+                    $this->photo->save($photos);
+                }
+            }
+            //大きさ対応
+            $size = $cols[$sizes];
+            if (!empty($size)){
+                $this->ParkList->id = $park_list_id;
+                $this->ParkList->saveField("size", $size);
+            }
             foreach ($categories as $ck => $cv){
                 $name = $cv["value"];
                 $value = (empty($cols[$cv["key"]])) ? null : $cols[$cv["key"]];

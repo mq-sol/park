@@ -46,7 +46,15 @@ class MapController extends AppController {
     }
 
     public function latlng($lat, $lng){
-    
+        $landmarks = $this->Landmark->find("all");
+        $this->set(compact('landmarks','lat','lng'));
+        $this->set("method", "latlng");
+        $this->render("index");
     }
    
+    public function landmark($id){
+        $landmarks = $this->Landmark->findById($id);
+        $this->set(compact('landmarks'));
+        $this->set("method", "latlng");
+    }
 }

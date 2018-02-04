@@ -26,6 +26,7 @@
     <!-- Bootstrap -->
     <?php echo $this->Html->css('bootstrap.min'); ?>
     <?php echo $this->Html->css('main'); ?>
+    <?php // echo $this->Html->css('common'); ?>
  
     <!-- Le styles -->
     <style>
@@ -53,10 +54,11 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <?php echo $this->Html->script('bootstrap.min'); ?>
     <?php echo $this->fetch('script'); ?>
+    <?php echo $this->element('header'); ?>
  
     <?php echo $this->Session->flash(); ?>
  
     <?php echo $this->fetch('content'); ?>
- 
+    <?php //echo $this->element('footer'); ?> 
   </body>
 </html>

@@ -111,3 +111,4 @@ CakeLog::config('error', array(
 ));
 CakePlugin::load('TwitterBootstrap');
 Configure::load('common');
+CakePlugin::load('Twitter');

@@ -1,41 +1,4 @@
-
-<style>
-.list-group td{
-    padding: 4px;
-}
-.items{
-    display: table-cell;
-    padding: 5px;
-}
-.ok_item {
-    background-color: green;
-    font-weight: bold;
-    color: white;
-    padding: 2px; 
-    font-size: 120%:
-    border: 1px solid green;
-    border-radius: 2px;
-}
-
-.ng_item {
-    background-color: gray;
-    font-weight: bold;
-    color: white;
-    padding: 2px; 
-    font-size: 120%:
-    border: 1px solid gray;
-    border-radius: 2px;
-}
-.list{
-    width: 98%;
-    border-color: white solid white;
-    border-radius: 3px;
-    background-color: white;
-}
-.list td{
-    padding: 3px;
-}
-</style>
+<?php echo $this->Html->css('main'); ?>
 <?php 
     foreach ($parklists as $i => $park):
 ?>

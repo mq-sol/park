@@ -118,7 +118,7 @@ class ParkListsController extends AppController {
     }
 
     public function frame($lat = null, $lon = null){
-        $this->autoLayout ==false;
+        $this->autoLayout=false;
         $lat = empty($lat) ? 49 : $lat;
         $lon = empty($lon) ? 139 : $lon;
         $parklists = $this->ParkList->search($lat, $lon);

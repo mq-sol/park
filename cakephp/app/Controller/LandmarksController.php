@@ -15,4 +15,11 @@ class LandmarksController extends AppController {
  */
 	public $components = array('Paginator');
 
+    public function index(){
+        $landmarks = $this->Landmark->find('all');
+        
+        $this->set(compact('landmarks'));
+    }
+
+
 }

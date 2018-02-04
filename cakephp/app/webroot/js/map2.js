@@ -2,7 +2,7 @@ var map, geojsonLayer;
 $(document).ready(function(){
     var h = $("html").height();
     var w = $("html").width();
-    $("#map").height(h / 2);
+    $("#map").height(h / 3);
     //地図のデフォルト値
     //35.61726475358062, lng: 139.73176002502439
     map = L.map('map').setView([35.617264, 139.73176], 14);
@@ -27,7 +27,9 @@ $(document).ready(function(){
 
         });
     }else{
-        url2latlng();
+        if (window.latitude != undefined && window.longitude != undefined){
+            url2latlng(latitude, longitude);
+        }
     }
 });
 
