@@ -80,7 +80,7 @@ $(function() {
         <div id="streetview"></div><br>
         住所：<br>
         <p>東京都品川区<?php echo $park_list["ParkList"]["address"]; ?>&nbsp;
-        <a href="https://www.google.co.jp/maps/@<?php echo $latitude; ?>,<?php echo $longitude; ?>,16z" target="map">[google map]</a>
+        <a href="http://maps.google.com/maps?q=<?php echo $latitude; ?>,<?php echo $longitude; ?>,16z" target="map">[google map]</a>
         <a href="http://maps.google.com/maps?saddr=現在地&daddr=<?php echo $latitude; ?>,<?php echo $longitude; ?>&dirflg=w" target="map">[google map 経路]</a></p><br>
         公園紹介<br>
         <p><?php echo $park_list["ParkList"]["description"]; ?></p>

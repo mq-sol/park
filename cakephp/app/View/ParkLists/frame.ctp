@@ -1,4 +1,3 @@
-<?php echo $this->Html->css('main'); ?>
 <?php 
     foreach ($parklists as $i => $park):
 ?>

@@ -40,7 +40,9 @@ function url2latlng(lat, lng){
     makeList(url);
     var frame_url = "/park_lists/frame/" + lat + "/" + lng;
     console.log(frame_url);
-    $("#iframe_list").attr("src", frame_url);
+    $.get(frame_url,function(data){
+        $("#iframe_list").empty().html(data);
+    });
 }
 
 function makeList(url){
@@ -69,16 +71,6 @@ function makeList(url){
         }).addTo(map);
         var fs = data.features;
         console.log(url,fs);
-/*
-        $("#search_list").empty();
-        for (var i =0; i < fs.length; i++){
-            var p = fs[i].properties;
-            var id = p.id; 
-            var dt = '<tr> <td rowspan="3" class="c-1"><a href="/details/items/' + id + '"><img src="/img/icons/number_' +  (i + 1) + '.png"></a></td> <td class="c-2">' + p.park_name + '</td></tr> <tr> <td class="c-2">' + p.park_name_rm + '</td> </tr> <tr> <td class="c-2"> <div class="ok">遊具,多目的トイレ,ベンチ</div> <div class="ng">自転車,ボール</div> </td> </tr>';
-            $("#search_list").append(dt);
-        }
-  
-*/      
     });
 }
 function mm(obj){

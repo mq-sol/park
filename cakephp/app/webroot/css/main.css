@@ -105,10 +105,11 @@ footer a{
 }
 
 .landmark {
-    background: url('/img/button.gif') no-repeat;
-    width: 150px;
+    background: url('/img/button.gif') repeat-x;
+    width: 120px;
     height: 30px;
     margin: 5px;
+    color: black;
 }
 
     .graph dt{  
@@ -307,3 +308,45 @@ footer a{
 .list td{
     padding: 3px;
 }
+
+    iframe{
+        width: 100%;
+        border: none;
+    }
+    .ok{
+        color: blue;
+    }
+    .ng {
+        color: red;
+    }
+    html,body{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+    html{
+        overflow: hidden;
+    }    
+
+    body{  
+        overflow: scroll;
+    }
+    .list,{
+        height: 50%;
+    }
+
+    .table, .search_list{
+        width: 100%;
+    }
+
+    .search_list{    
+        border: 1px solid black;
+    }
+    .c-1, .c-3{
+        width: 20%;
+    }
+
+    .c-3 img{
+        width: 90%;
+    }
