@@ -7,9 +7,10 @@
 <table class="list">
     <tr>
         <td>
-        <a target="_parent" href="/details/items/<?php echo $park["id"] ?>"><img src="/img/icons/number_<?php echo ($i + 1); ?>.png"></a>
-
-<?php echo $park["park_name"]?>(<?php echo $park["park_name_rm"]; ?>)</td>
+            <a target="_parent" href="/details/items/<?php echo $park["id"] ?>"><img src="/img/icons/number_<?php echo ($i + 1); ?>.png"></a>
+            <a target="_parent" href="/details/items/<?php echo $park["id"] ?>"><?php echo $park["park_name"]?>(<?php echo $park["park_name_rm"]; ?>)</a>
+            [<?php echo number_format($park["len"],0); ?>m]
+        </td>
     </tr>
     <tr>
         <td><?php echo $park["description"]; ?></td>

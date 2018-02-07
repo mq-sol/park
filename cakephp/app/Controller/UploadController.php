@@ -77,11 +77,11 @@ class UploadController extends AppController {
                 $lons = $key;
             }else if (preg_match("/image\d+/",$field,$match)){
                 $images[] = $key; 
-            }else if (mb_ereg("【(.*)】",$field,$match){
+            }else if (mb_ereg("【(.*)】",$field,$match)){
                 $sizes = $key;
             }
         }
-
+        $this->log(compact('categories','images','sizes'),LOG_DEBUG);
 
         //カテゴリーをDBに登録
         $this->Category->query("truncate table categories");
@@ -105,12 +105,15 @@ class UploadController extends AppController {
             //画像対応
             foreach ($images as $key){
                 $photo_url = $cols[$key];
-                if (!empty($photo_url)){
+                if (!empty($photo_url) && $photo_url != "-"){
                     $photos = array(
-                        "Photo" => compact('park_list_id','photo_url')
+                        "Photo" => array(
+                            "park_list_id" => $park_list_id,
+                            "photo_url" => $photo_url
+                        )
                     );
                     $this->Photo->create();
-                    $this->photo->save($photos);
+                    $this->Photo->save($photos);
                 }
             }
             //大きさ対応
@@ -140,5 +143,4 @@ class UploadController extends AppController {
             }
         } 
     }
-
 }
