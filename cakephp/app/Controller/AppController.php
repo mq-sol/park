@@ -37,6 +37,8 @@ class AppController extends Controller {
         //SSLを強制するアクションを設定
         $this->Security->blackHoleCallback = 'forceSSL';
         $this->Security->requireSecure();
+        $this->Security->validatePost = false;
+        $this->Security->csrfCheck = false;
         
     }
     public function forceSSL() {

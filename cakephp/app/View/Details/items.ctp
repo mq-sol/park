@@ -4,9 +4,6 @@
 <div class="container">
 <div class="main_contents">
 <center>
-<?php 
-    $this->log($park_list,LOG_DEBUG);
-?>
 <div class="main_title center-block">
     <?php echo $park_list["ParkList"]["park_name"]; ?><br>
 </div>
@@ -59,23 +56,6 @@ $(function() {
 </script>
     <div class="row">
         <?php
-            /*
-            if (count($park_list["Photo"])){
-                echo '<ul class="thumb-item">';
-                foreach($park_list["Photo"] as $photo){
-                    printf("<li class=''><img src='%s'></li>\n", $photo["photo_url"]);
-                }
-                echo "<ul>\n";
-            }
-            
-            if (count($park_list["Photo"])){
-                echo '<ul class="thumb-item-nav">';
-                foreach($park_list["Photo"] as $photo){
-                    printf("<li class=''><a href='#'><img src='%s'></a></li>\n", $photo["photo_url"]);
-                }
-                echo "<ul>\n";
-            }
-             */
         ?>
         <div id="streetview"></div><br>
         住所：<br>

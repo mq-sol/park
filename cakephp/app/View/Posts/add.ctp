@@ -2,8 +2,9 @@
 <div class="main_contents">
 <center>
 <div class="main_title center-block">
-  行ったよを報告する 
+    <?php echo $park_list["ParkList"]["park_name"]; ?><br>
 </div>
+ (<?php echo $park_list["ParkList"]["park_name_rm"]; ?>)
 </center>
 <table class="menu">
     <tr>
@@ -23,7 +24,14 @@
     )); ?>
         <fieldset>
         <?php
-            $opt_age = array("0" => "0歳児", "1" => "1歳児", "2" => "2歳児", "3" => "3歳児", "4" => "4歳児", "5" => "5歳児", "6" => "6歳児");
+            $opt_age = array(
+                "0歳児", 
+                "1歳児", 
+                "2歳児", 
+                "3歳児", 
+                "4歳児", 
+                "5歳児", 
+                "6歳児");
             $opt_rank = array(
                 "1" => str_repeat("☆",1), 
                 "2" => str_repeat("☆",2), 
@@ -37,14 +45,20 @@
         <div class="form-group row">
             <label for="PostAge" class="control-label col-xs-5">お子さんの年齢は？（必須）</label>
             <div class="col-xs-5">
-                <?php echo $this->Form->select('age', $opt_age, array('class' => 'form-control')); ?>
+                <?php
+                    foreach ($opt_age as $k => $v){
+                        $val = pow(2, $k);
+                        printf("<label><input type='checkbox' name='data[Post][ages][]' value='%d'>%s</label>", $val, $v);
+                    }
+                ?>
             </div>
         </div>
         <br>
         <div class="form-group row">
             <label for="PostRank" class="control-label col-xs-5">この公園の評価は？（必須）</label>
             <div class="col-xs-5">
-                <?php echo $this->Form->select('rank', $opt_rank, array('class' => 'form-control')); ?>
+                <label><input type="radio" name="data[Post][rank]" value="1">いいね</label>    
+                <label><input type="radio" name="data[Post][rank]" value="-1">うーん</label>    
             </div>
         </div>
         <br>

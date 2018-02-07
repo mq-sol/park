@@ -16,6 +16,7 @@ class PostsController extends AppController {
  * @var array
  */
 	public $components = array('Paginator', 'Session', 'Flash');
+    public $uses = array("Detail", "ParkList", "Category", "Post");
 
 /**
  * index method
@@ -34,9 +35,9 @@ class PostsController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
-        $this->set('park_list_id', $id);
-		$this->set(compact('parkLists'));
+	public function view($park_list_id = null) {
+        $park_list = $this->ParkList->findById($park_list_id);
+		$this->set(compact('park_list_id','park_list'));
 	}
 
 /**
@@ -44,19 +45,21 @@ class PostsController extends AppController {
  *
  * @return void
  */
-	public function add($id = null) {
+	public function add($park_list_id = null) {
+        $park_list = $this->ParkList->findById($park_list_id);
+		$this->set(compact('park_list_id','park_list'));
 		if ($this->request->is('post')) {
 			$this->Post->create();
-			if ($this->Post->save($this->request->data)) {
-				$this->Flash->success(__('The post has been saved.'));
+            $data = $this->request->data;
+            $this->log($data, LOG_DEBUG);
+            $ages = $data["Post"]["ages"];
+            $age = array_sum($ages);
+            $data["Post"]["age"] = $age;
+
+			if ($this->Post->save($data)) {
 				return $this->redirect("/details/items/". $id);
-			} else {
-				$this->Flash->error(__('The post could not be saved. Please, try again.'));
 			}
 		}
-		$parkLists = $this->Post->ParkList->find('list');
-        $this->set('park_list_id', $id);
-		$this->set(compact('parkLists'));
 	}
 
 /**

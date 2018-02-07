@@ -62,12 +62,12 @@ html,body{
 .row {
     width: 100%;
     margin: 15px auto;
-} 
+}
 
-.main_title{ 
+.main_title{
     font-size: 200%;
     width: 100%;
-    
+
 }
 
 .main_contents{
@@ -112,17 +112,17 @@ footer a{
     color: black;
 }
 
-    .graph dt{  
+    .graph dt{
       padding : 5px;
-      height: 30px;    
+      height: 30px;
       width : 80px;
     /* 左寄せ */
       float : left;
     /* float解除 */
       clear : both;
     }
-     
-    .graph dd{    
+
+    .graph dd{
       padding : 5px;
       height: 30px;
       width : 300px;
@@ -236,9 +236,9 @@ footer a{
         margin: 2px;
         border-left: 1px solid #D2C6C6;
         border-right: 1px solid #D2C6C6;
-        border-radius: 5px;        /* CSS3草案 */  
-        -webkit-border-radius: 5px;    /* Safari,Google Chrome用 */  
-        -moz-border-radius: 5px;   /* Firefox用 */ 
+        border-radius: 5px;        /* CSS3草案 */
+        -webkit-border-radius: 5px;    /* Safari,Google Chrome用 */
+        -moz-border-radius: 5px;   /* Firefox用 */
         text-align: center;
         padding-top: 5px;
     }
@@ -255,11 +255,11 @@ footer a{
 
 }
 .menu .map{
-    background-color: #FFBC61; 
+    background-color: #FFBC61;
     color: white;
     font-size: 120%;
     text-align: center;
-    
+
 }
 
 .menu .post{
@@ -284,7 +284,7 @@ footer a{
     background-color: green;
     font-weight: bold;
     color: white;
-    padding: 2px; 
+    padding: 2px;
     font-size: 120%:
     border: 1px solid green;
     border-radius: 2px;
@@ -294,7 +294,7 @@ footer a{
     background-color: gray;
     font-weight: bold;
     color: white;
-    padding: 2px; 
+    padding: 2px;
     font-size: 120%:
     border: 1px solid gray;
     border-radius: 2px;
@@ -327,9 +327,9 @@ footer a{
     }
     html{
         overflow: hidden;
-    }    
+    }
 
-    body{  
+    body{
         overflow: scroll;
     }
     .list,{
@@ -340,7 +340,7 @@ footer a{
         width: 100%;
     }
 
-    .search_list{    
+    .search_list{
         border: 1px solid black;
     }
     .c-1, .c-3{
@@ -350,3 +350,21 @@ footer a{
     .c-3 img{
         width: 90%;
     }
+label{
+    margin-right: 10px;
+}
+
+input[type="checkbox"],
+input[type="radio"]{
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.post_data{
+    background-color: #EFEFEF;
+    border: #333333 solid 1px;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+}
+

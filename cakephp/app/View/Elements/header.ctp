@@ -23,7 +23,6 @@
             <ul class="nav navbar-nav navbar-right">
               <li><a href="/map/gps">現在位置</a></li>
               <li><a href="/landmarks/">最寄りの駅</a></li>
-              <li><a href="/posts/add">行ったよを報告</a></li>
               <li><a href="/about">このアプリについて</a></li>
             </ul>
           </div>
