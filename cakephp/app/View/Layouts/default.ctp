@@ -16,18 +16,18 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Park Search for SHINAGAWA</title>
- 
+    <title>みんなで作る。乳幼児向け公園検索</title>
+
     <!-- Bootstrap -->
     <?php echo $this->Html->css('bootstrap.min'); ?>
     <?php echo $this->Html->css('main'); ?>
     <?php // echo $this->Html->css('common'); ?>
- 
+
     <!-- Le styles -->
     <style>
     body {
@@ -37,7 +37,7 @@
       text-align: center;
     }
     </style>
- 
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -55,10 +55,10 @@
     <?php echo $this->Html->script('bootstrap.min'); ?>
     <?php echo $this->fetch('script'); ?>
     <?php echo $this->element('header'); ?>
- 
+
     <?php echo $this->Session->flash(); ?>
- 
+
     <?php echo $this->fetch('content'); ?>
-    <?php //echo $this->element('footer'); ?> 
+    <?php //echo $this->element('footer'); ?>
   </body>
 </html>
