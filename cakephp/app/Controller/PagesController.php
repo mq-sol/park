@@ -35,7 +35,7 @@ class PagesController extends AppController {
  *
  * @var array
  */
-	public $uses = array();
+    public $uses = array("Detail", "ParkList", "Category", "Post");
 
 /**
  * Displays a view
@@ -48,6 +48,11 @@ class PagesController extends AppController {
 	public function display() {
 		$path = func_get_args();
 
+        $posts = $this->Post->find('all',array(
+            "order" => "Post.created desc",
+            "limit" => 5
+        ));
+        $this->set(compact('posts'));
 		$count = count($path);
 		if (!$count) {
 			return $this->redirect('/');
