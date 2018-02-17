@@ -71,9 +71,35 @@ class ParkList extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-    
-    public function geojson($lat = null, $lng = null){
-        $sql = <<<_SQL_
+
+    public function geojson($lat = null, $lng = null, $order = 1){
+        if ($order == 1){
+            $sql = <<<_SQL_
+SELECT row_to_json(featurecollection)
+FROM (
+    SELECT
+    'FeatureCollection' AS type,
+    array_to_json(array_agg(feature)) AS features
+    FROM
+    (
+        SELECT
+        'Feature' AS type,
+        ST_AsGeoJSON(point, 6)::json AS geometry,
+        row_to_json((
+            SELECT p FROM (
+                SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng, v.description,v.rank,v.len
+            ) AS p
+        )) AS properties
+        FROM (SELECT *, st_length(geography(st_makeline(point, st_setsrid(st_makepoint($lng, $lat),4326)))) AS len
+            FROM view_park_lists
+            ORDER BY st_distance(point, st_setsrid(st_makepoint($lng, $lat),4326))
+            limit 20) AS v
+        ORDER BY rank desc, len
+    ) AS feature
+) AS featurecollection;
+_SQL_;
+        }else{
+            $sql = <<<_SQL_
 SELECT row_to_json(featurecollection)
 FROM (
     SELECT
@@ -85,7 +111,7 @@ FROM (
         ST_AsGeoJSON(point, 6)::json AS geometry,
         row_to_json((
             SELECT p FROM (
-                SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng, v.description,
+                SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng, v.description,v.rank,
                     st_length(geography(st_makeline(point, st_setsrid(st_makepoint($lng,$lat),4326)))) as len
             ) AS p
         )) AS properties
@@ -95,87 +121,40 @@ FROM (
     ) AS feature
 ) AS featurecollection;
 _SQL_;
-
+        }
         $rs = $this->query($sql);
         $result = $rs[0][0]["row_to_json"];
+$this->log($result, LOG_DEBUG);
         return $result;
 
     }
 
-    public function search($lat = null, $lng = null){
-        $sql = <<<_SQL_
-            SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng, v.description,
+    public function search($lat = null, $lng = null, $order = 1){
+        if ($order == 1) {
+            $sql = <<<_SQL_
+            SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng, v.description, v.rank, len
+            FROM (
+                SELECT *, st_length(geography(st_makeline(point, st_setsrid(st_makepoint($lng, $lat),4326)))) AS len
+                FROM view_park_lists
+                ORDER BY st_distance(point, st_setsrid(st_makepoint($lng, $lat),4326))
+                limit 20) AS v
+            ORDER BY rank desc, len
+_SQL_;
+        }else{
+            $sql = <<<_SQL_
+            SELECT v.id, v.park_name, v.park_name_rm, v.ok, v.ng, v.description, v.rank,
             st_length(geography(st_makeline(point, st_setsrid(st_makepoint($lng,$lat),4326)))) as len
             FROM view_park_lists AS v
             ORDER BY st_distance(point, st_setsrid(st_makepoint($lng, $lat),4326))
             limit 20
 _SQL_;
-
+        }
         $rs = $this->query($sql);
         $result = array();
         foreach($rs as $row){
             $result[] = $row[0];
         }
+$this->log($result, LOG_DEBUG);
         return $result;
     }
-
-    public function my_geojson($lat = null, $lng = null){
-        $opt = array();
-        /* */
-        $opt = array(
-            "recursive" => -1,
-            "limit" => 20,
-        );
-        if ($lat != null && $lng != null){
-            $opt["order"] = "Glength(GeomFromText(concat('LineString(', x(point) ,' ', y(point) , ', $lng $lat)')))";
-        }
-        /* */
-        $rs = $this->find('all',$opt);
-        $geojson = array(
-           'type'      => 'FeatureCollection',
-           'features'  => array()
-        );
-        foreach ($rs as $key => $row){
-            $properties = $row["ParkList"];
-            
-            unset($properties['point']);
-            $geometry = array(
-                "type" => "Point",
-                "coordinates" => array(
-                    $row["ParkList"]["longitude"],
-                    $row["ParkList"]["latitude"],
-                    "0"
-                )
-            );
-
-            //
-            $feature = array(
-                 'type' => 'Feature',
-                 'geometry' => $geometry,
-                 'properties' => $properties
-            );
-
-            array_push($geojson['features'], $feature);
-        }
-        return $geojson;
-
-    }
-
-    public function showtest(){
-        $lng=139.7168; 
-        $lat=35.6147;
-        $opt = array();
-        /* */
-        $opt = array(
-            "limit" => 20,
-        );
-        if ($lat != null && $lng != null){
-            $opt["order"] = "Glength(GeomFromText(concat('LineString(', x(point) ,' ', y(point) , ', $lng $lat)')))";
-        }
-        /* */
-        $rs = $this->find('all',$opt);
-    
-        return $rs;    
-    }
-
 }

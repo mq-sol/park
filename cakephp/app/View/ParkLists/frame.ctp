@@ -1,4 +1,10 @@
-<?php 
+<?php
+    $cat = array();
+    foreach ($categories as $k => $v){
+        $cat[$v["Category"]["name"]] = "/img/marks/" . sprintf($v["Category"]["icon_name"], "a");
+    }
+$this->log($cat, LOG_DEBUG);
+
     foreach ($parklists as $i => $park):
 ?>
 
@@ -20,7 +26,7 @@
         $oks =explode(",",str_replace(array('{','}'),'',$park["ok"]));
         foreach ($oks as $ok){
             if (empty($ok)) break;
-            printf("<div class='items'><div class='ok_item'>%s</div></div>", $ok);
+            printf("<div class='items'><img class='list_mark' title='%s' src='%s'></div>", $ok, $cat[$ok]);
         }
     ?>
         </td>

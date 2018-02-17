@@ -16,6 +16,7 @@ class ParkListsController extends AppController {
  * @var array
  */
 	public $components = array('Paginator', 'Session', 'Flash');
+    public $uses = array("Detail", "ParkList", "Category", "Post");
 
 /**
  * lists method
@@ -104,11 +105,11 @@ class ParkListsController extends AppController {
 		return $this->redirect(array('action' => 'lists'));
 	}
 
-    public function geojson($lat = null, $lon = null){
+    public function geojson($lat = null, $lon = null, $order = 1){
         $this->autoRender=false;
         $lat = empty($lat) ? 49 : $lat;
         $lon = empty($lon) ? 139 : $lon;
-        $geojson = $this->ParkList->geojson($lat, $lon);
+        $geojson = $this->ParkList->geojson($lat, $lon, $order);
         $json = json_decode($geojson, true);
         $i = 0;
         foreach ($json['features'] as $k => &$v){
@@ -117,12 +118,13 @@ class ParkListsController extends AppController {
         print json_encode($json);
     }
 
-    public function frame($lat = null, $lon = null){
+    public function frame($lat = null, $lon = null, $order = 1){
         $this->autoLayout=false;
         $lat = empty($lat) ? 49 : $lat;
         $lon = empty($lon) ? 139 : $lon;
-        $parklists = $this->ParkList->search($lat, $lon);
-        $this->set(compact('parklists'));
+        $parklists = $this->ParkList->search($lat, $lon, $order);
+        $categories = $this->Category->find('all');
+        $this->set(compact('parklists','categories'));
     }
 
     public function test(){

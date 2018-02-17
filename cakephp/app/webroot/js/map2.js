@@ -1,4 +1,4 @@
-var map, geojsonLayer;
+var map, geojsonLayeri, lastLat, lastLng;
 $(document).ready(function(){
     var h = $("html").height();
     var w = $("html").width();
@@ -16,11 +16,11 @@ $(document).ready(function(){
     ).addTo(map);
     if (gps){
         navigator.geolocation.getCurrentPosition(function(pos){
-            console.log(pos);    
+            console.log(pos);
             var lat = pos.coords.latitude;
             var lng = pos.coords.longitude;
             url2latlng(lat, lng);
-        }, 
+        },
         function(pos){
             console.log(pos);
         } , {
@@ -31,14 +31,21 @@ $(document).ready(function(){
             url2latlng(latitude, longitude);
         }
     }
+
+    //
+
+
+
 });
 
-function url2latlng(lat, lng){
-    lng = lng || 139.704413;
-    var url = "/park_lists/geojson/" + lat + "/" + lng;
+function url2latlng(lat, lng, order){
+    order = order || 1; //1: 評価順、2: 近い順
+    lastLat = lat;
+    lastLng = lng;
+    var url = "/park_lists/geojson/" + lat + "/" + lng + "/" + order;
     map.setView(new L.LatLng(lat, lng), 16);
     makeList(url);
-    var frame_url = "/park_lists/frame/" + lat + "/" + lng;
+    var frame_url = "/park_lists/frame/" + lat + "/" + lng + "/" + order;
     console.log(frame_url);
     $.get(frame_url,function(data){
         $("#iframe_list").empty().html(data);
@@ -73,8 +80,14 @@ function makeList(url){
         console.log(url,fs);
     });
 }
+
 function mm(obj){
     var lm = $("#landmark").val();
     var l = lm.split(",");
     url2latlng(l[0], l[1]);
+}
+
+function changeOrder(obj){
+    var order = $(obj).val();
+    url2latlng(lastLat, lastLng, order);
 }

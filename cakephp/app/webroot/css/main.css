@@ -368,3 +368,35 @@ input[type="radio"]{
     margin: 10px;
 }
 
+.post_data .post_image{
+    max-width: 60%;
+}
+
+.emoji{
+    font-size: 36px;
+}
+
+.gmap {
+    width: 50px;
+    height: 50px;
+    background: url(/img/gmap.png) no-repeat;
+    display: table-cell;
+    color: black;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.walk {
+    width: 50px;
+    height: 50px;
+    background: url(/img/walk.png) no-repeat;
+    display: table-cell;
+    color: black;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.list_mark {
+    width: 24px;
+    height: 24px;
+}
