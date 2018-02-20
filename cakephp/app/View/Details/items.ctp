@@ -46,9 +46,9 @@ $(function() {
     <div class="row">
         公園紹介<br>
         <p><?php echo $park_list["ParkList"]["description"]; ?></p>
-
+        <center>
         <?php if (!empty($park_list["Photo"])) : ?>
-        <center><ul class='slider thumb-item-nav'>
+            <ul class='slider thumb-item-nav'>
         <?php
             $photo_dir = WWW_ROOT . "img" .DS . "photos" . DS;
             foreach ($park_list["Photo"] as $photos){
@@ -60,9 +60,12 @@ $(function() {
                 }
             }
         ?>
-        </ul></center>
+            </ul>
+        <?php else: ?>
+            <img src="/img/noimage.png" class="park_noimage">
         <?php endif; ?>
-        <a class="gmap" href="http://maps.google.com/maps?q=<?php echo $latitude; ?>,<?php echo $longitude; ?>,16z" target="map">&nbsp;</a>
+        </center>
+        <a class="gmap" href="http://maps.google.com/maps?q=<?php echo $latitude; ?>,<?php echo $longitude; ?>" target="map">&nbsp;</a>
         <a class="walk" href="http://maps.google.com/maps?saddr=現在地&daddr=<?php echo $latitude; ?>,<?php echo $longitude; ?>&dirflg=w" target="map">&nbsp;</a></p><br>
 
         </p>

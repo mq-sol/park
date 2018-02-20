@@ -400,3 +400,7 @@ input[type="radio"]{
     width: 24px;
     height: 24px;
 }
+
+img.park_noimage {
+    width: 50%;
+}
