@@ -21,8 +21,8 @@
           <!-- メニュー　li が項目。必要な分だけ li をコピペで増やす。-->
           <div class="collapse navbar-collapse" id="site-menu">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="/map/gps">現在位置</a></li>
-              <li><a href="/landmarks/">最寄りの駅</a></li>
+              <li><a href="/map/gps">現在位置から探す</a></li>
+              <li><a href="/landmarks/">最寄りの駅から探す</a></li>
               <li><a href="/about">このアプリについて</a></li>
             </ul>
           </div>
