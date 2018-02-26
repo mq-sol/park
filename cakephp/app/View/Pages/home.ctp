@@ -63,7 +63,7 @@
             printf("<span class='emoji'>%s</span></dt><br>", $rank_data);
             printf("<dd>%s</dd><br>", $post["message"]);
             if (!empty($image)){
-                printf("<img src='%s' class='post_image'><br>", $image);
+            //    printf("<img src='%s' class='post_image'><br>", $image);
             }
             printf("# %s", $age_info);
             print("</div>");
