@@ -405,3 +405,11 @@ input[type="radio"]{
 img.park_noimage {
     width: 50%;
 }
+
+img.top_img{
+    display: block;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 50px;
+    margin: 5px auto;
+}

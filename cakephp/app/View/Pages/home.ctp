@@ -19,6 +19,7 @@
                 </div>
             </div>
         </center>
+        <img src="/img/top.jpg" class="top_img">
         <div class="title">みんなの公園に行ったよ報告</div>
         <div class="posts form top_image">
         <?php
