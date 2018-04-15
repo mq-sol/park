@@ -57,7 +57,7 @@ class PostsController extends AppController {
             $data["Post"]["age"] = $age;
 
 			if ($this->Post->save($data)) {
-				return $this->redirect("/details/items/". $id);
+				return $this->redirect("/details/items/". $park_list_id);
 			}
 		}
 	}
