@@ -127,6 +127,15 @@ class ParkListsController extends AppController {
         $this->set(compact('parklists','categories'));
     }
 
+    public function nearest($lat = null, $lon = null){
+        $this->autoRender=false;
+        $lat = empty($lat) ? 49 : $lat;
+        $lon = empty($lon) ? 139 : $lon;
+        $rs = $this->ParkList->nearest($lat, $lon);
+        print json_encode($rs);
+    }
+
+
     public function test(){
         $this->autoRender=false;
         print_r($this->ParkList->showTest());

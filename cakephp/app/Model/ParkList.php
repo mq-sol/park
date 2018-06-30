@@ -157,4 +157,20 @@ _SQL_;
 $this->log($result, LOG_DEBUG);
         return $result;
     }
+
+    function nearest($lat, $lng){
+        $sql = <<<_SQL_
+        SELECT v.id, v.park_name, v.park_name_rm FROM view_park_lists AS v
+        ORDER BY st_distance(point, st_setsrid(st_makepoint($lng, $lat),4326))
+        limit 1
+_SQL_;
+        $rs = $this->query($sql);
+        $result = array();
+        foreach($rs as $row){
+            $result[] = $row[0];
+        }
+$this->log($result, LOG_DEBUG);
+        return count($result) ? $result[0] : $result;
+    }
+
 }
