@@ -24,4 +24,19 @@ class ParkSurveyPhoto extends AppModel {
 			'order' => ''
 		)
 	);
+
+    public function parkList(){
+        $fields = array(
+            "DISTINCT ParkSurveyPhoto.park_list_id",
+            "ParkList.park_name"
+        );
+        $data = $this->find('all',
+            array(
+                'fields' => $fields,
+                'order' => "ParkSurveyPhoto.park_list_id"
+            )
+        );
+        return $data;
+    }
+
 }

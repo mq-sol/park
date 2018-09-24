@@ -11,6 +11,7 @@
         <button class="btn pk" type="button">チェックを付けたものを公園情報に公開する</button>
     </div>
 </div>
+<?php echo $id ?>
 <div class="row">
 <?php foreach ($lists as $row): ?>
     <div class="col-xs-3 cl">
@@ -41,6 +42,7 @@
 
 </style>
 <script>
+    var id = "<?php echo $id ?>";
     $(".dl").on("click",function(){
         var chk = [];
         $(".chk").each(function(){
@@ -52,7 +54,11 @@
             }
         });
         console.log(chk);
-        location.href="/20180630170002.zip";
+        $.post("/admin/photo_dl/" + id, {lists: chk}, function(data){
+            console.log(data);
+            var url = "/admin/zip_dl/" + data;
+            location.href = url;
+        });
     });
 </script>
 
